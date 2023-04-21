@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #2cbeef;
+}
+.card {
+  backdrop-filter: blur(10px);
+}
+.image-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+@keyframes rain-drop1 {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(800px) rotate(360deg);
+  }
+}
+
+@keyframes rain-drop2 {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(800px) rotate(360deg);
+  }
+}
+
+@keyframes rain-drop3 {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(800px) rotate(360deg);
+  }
+}
+
+@keyframes rain-drop4 {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(800px) rotate(360deg);
+  }
+}
+
+@keyframes rain-drop5 {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(800px) rotate(360deg);
+  }
+}
+
+@keyframes rain-drop6 {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(800px) rotate(360deg);
+  }
+}
+
+@keyframes rain-drop7 {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(800px) rotate(360deg);
+  }
+}
+@keyframes rain-drop8 {
+  0% {
+    transform: translateY(-50px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(800px) rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spin {
+  animation: spin 2s linear infinite;
+}
+.bg-transition {
+  transition: 0.5s ease-in-out;
+}
