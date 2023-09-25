@@ -36,6 +36,7 @@ function App() {
         >
           {data.map((item) => (
             <img
+              key={item.id}
               className="w-[220px] inline-block p-2 cursor-pointer hover:scale-105 ease-in-out duration-300 rounded-lg bg-black"
               src={item.img}
               alt="/"

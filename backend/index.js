@@ -1,3 +1,4 @@
+const Monnify = require("monnify-nodejs");
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -8,7 +9,6 @@ const app = express();
 
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
-
 const PORT = process.env.PORT || 4000;
 //mongodb conn
 const mongo = process.env.MONGODB_URL;
@@ -20,6 +20,44 @@ mongoose
   })
   .then(() => console.log("MongoDB connection successful"))
   .catch(() => console.log("MongoDB connection failed"));
+
+const monnify = new Monnify({
+  apiKey: "MK_TEST_10AZJ7CRDM",
+  secretKey: "ALDHVZVMRJD60LF63X9NTVZV4AQ0T0RQ",
+  isLive: true,
+  baseUrl: "https://sandbox.monnify.com",
+});
+
+app.post("/payments", async (req, res) => {
+  const { amount, email } = req.body;
+  if (!email || email.trim() === "") {
+    return res.status(400).json({ message: "Email is required" });
+  }
+
+  if (!amount || isNaN(amount)) {
+    return res.status(400).json({ message: "Valid amount is required" });
+  }
+  const transactionReference = `txn-${Date.now()}`;
+
+  try {
+    const transaction = await monnify.initializeTransaction({
+      amount,
+      customerEmail: email,
+      paymentReference: transactionReference,
+      currencyCode: "NGN",
+      paymentDescription: "Payment for something",
+      contractCode: "6112549478",
+      redirectUrl: "http://localhost:5173/",
+      paymentMethods: ["CARD"],
+    });
+    res.send(transaction.paymentLink);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while initializing transaction" });
+  }
+});
 
 //schema
 const userSchema = mongoose.Schema({
@@ -96,6 +134,11 @@ app.post("/login", (req, res) => {
     });
 });
 
+app.get("/allUsers", async (req, res) => {
+  const allUsers = await userModel.find({});
+  res.send({ status: "ok", data: allUsers });
+});
+
 // product
 
 const schemaProduct = mongoose.Schema({
@@ -121,24 +164,25 @@ app.get("/products", async (req, res) => {
   res.send(JSON.stringify(data));
 });
 //admin
-app.get("/allUsers", async (req, res) => {
-  const allUsers = await userModel.find({});
-  res.send({ status: "ok", data: allUsers });
-});
 
 //
 // Define Order schema
+
 const orderSchema = new mongoose.Schema({
   name: String,
   address: String,
   message: String,
   contact: String,
+  trackingId: String,
+  status: {
+    type: String,
+    enum: ["pending", "shipped", "delivered"],
+    default: "pending",
+  },
 });
 
 // Define Order model
 const Order = mongoose.model("order", orderSchema);
-
-// Middleware for parsing request body
 
 // POST route for creating a new order
 app.post("/order", async (req, res) => {
@@ -146,8 +190,40 @@ app.post("/order", async (req, res) => {
   const data = await Order(req.body);
   const datasave = await data.save();
   console.log(datasave);
+  const trackingId = generateTrackingId();
 
-  res.send({ message: "Order created successfully" });
+  res.send({ message: "Order created successfully", trackingId });
 });
 
+// PUT route for updating order status
+app.put("/order/:trackingId", async (req, res) => {
+  const { status } = req.body;
+  const { trackingId } = req.params;
+  const order = await Order.findOneAndUpdate(
+    { trackingId },
+    { status },
+    { new: true }
+  );
+  console.log(order);
+  res.send({ message: "Order status updated successfully" });
+});
+// GET route for fetching order by tracking ID
+app.get("/order/:trackingId", async (req, res) => {
+  const { trackingId } = req.params;
+  const order = await Order.findOne({ trackingId });
+  if (!order) {
+    return res.status(404).send({ message: "Order not found" });
+  }
+  res.send(order);
+});
+
+// Generate random tracking ID
+function generateTrackingId() {
+  const chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+  let result = "";
+  for (let i = 0; i < 6; i++) {
+    result += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return result;
+}
 app.listen(PORT, () => console.log("server is running at port : " + PORT));

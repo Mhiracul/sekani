@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 
-import { Link } from "react-scroll";
+import { Link } from "react-router-dom";
 import { Logo } from "../assets/Sekani/index";
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -68,29 +68,19 @@ const Navbar = () => {
       <nav onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
         <ul className="hidden md:flex gap-10">
           <li>
-            <Link to="home" smooth={true} duration={500}>
-              Home
-            </Link>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="about" smooth={true} duration={500}>
-              About
-            </Link>
+            <Link to="about">About</Link>
           </li>
           <li>
-            <Link to="skills" smooth={true} duration={500}>
-              Events
-            </Link>
+            <Link to="skills">Events</Link>
           </li>
           <li>
-            <Link to="work" smooth={true} duration={500}>
-              News
-            </Link>
+            <Link to="work">News</Link>
           </li>
           <li>
-            <Link to="contact" smooth={true} duration={500}>
-              Contact
-            </Link>
+            <Link to="contact">Contact</Link>
           </li>
         </ul>
         {bubbles.map((bubble) => (
@@ -126,13 +116,12 @@ const Navbar = () => {
         className={
           !nav
             ? "hidden"
-            : "absolute top-0 left-0 w-full h-96 bg-[#add8e6] flex flex-col justify-center items-start"
+            : "absolute top-0 left-0 w-full h-96 bg-[#fff] flex flex-col justify-center items-start"
         }
       >
         <Link
           to="about"
-          spy={true}
-          smooth={true}
+          spy="true"
           offset={800}
           duration={100}
           onClick={handleClick}
@@ -142,8 +131,7 @@ const Navbar = () => {
         </Link>
         <Link
           to="services"
-          spy={true}
-          smooth={true}
+          spy="true"
           offset={50}
           duration={100}
           onClick={handleClick}
@@ -153,8 +141,7 @@ const Navbar = () => {
         </Link>
         <Link
           to="services"
-          spy={true}
-          smooth={true}
+          spy="true"
           offset={600}
           duration={100}
           onClick={handleClick}
@@ -164,8 +151,7 @@ const Navbar = () => {
         </Link>
         <Link
           to="services"
-          spy={true}
-          smooth={true}
+          spy="true"
           offset={2500}
           duration={100}
           onClick={handleClick}
@@ -175,8 +161,7 @@ const Navbar = () => {
         </Link>
         <Link
           to="testimonial"
-          spy={true}
-          smooth={true}
+          spy="true"
           offset={2500}
           duration={100}
           onClick={handleClick}
@@ -187,8 +172,7 @@ const Navbar = () => {
         <span className="px-4"></span>
         <Link
           to="contact"
-          spy={true}
-          smooth={true}
+          spy="true"
           offset={2500}
           duration={100}
           onClick={handleClick}

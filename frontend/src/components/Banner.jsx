@@ -13,7 +13,7 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 
-const HeroSection = () => {
+const Banner = () => {
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -67,4 +67,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+export default Banner;

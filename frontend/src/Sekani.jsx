@@ -6,6 +6,7 @@ import Services from "./components/Services";
 import MenuFooter from "./LoungeComponent/MenuFooter";
 import Location from "./components/Location";
 import Feedback from "./components/Feedback";
+import MyChatComponent from "./components/MyChatComponent";
 
 const Sekani = () => {
   return (
@@ -16,7 +17,7 @@ const Sekani = () => {
       <Services />
       <Location />
       <Feedback />
-
+      <MyChatComponent />
       <MenuFooter />
     </div>
   );

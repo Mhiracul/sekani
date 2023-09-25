@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import UserCard from "../EateryComponent/UserCard";
+import UserCard from "./Admin/UserCard";
 import { setUsers } from "../redux/userSlice";
 
 function Users() {

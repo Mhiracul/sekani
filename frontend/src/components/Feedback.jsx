@@ -73,7 +73,6 @@ function Feedback() {
               <label htmlFor="">Message</label>
               <input
                 id="standard-basic4"
-                minRows={10}
                 className="col-sm-12 w-full bg-gradient bg-gradient-to-br from-gray-300 to-transparent  
                 bg-opacity-20 rounded-md shadow-md text-black outline-none"
                 label="Message"

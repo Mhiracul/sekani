@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-
+import { Link } from "react-router-dom";
 const OrderForm = () => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [message, setMessage] = useState("");
   const [contact, setContact] = useState("");
+  const [trackingId, setTrackingId] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -16,6 +17,7 @@ const OrderForm = () => {
         address,
         message,
         contact,
+        trackingId,
       });
       toast(response.data.message);
       // code to handle successful order submission
@@ -24,6 +26,33 @@ const OrderForm = () => {
       // code to handle error
     }
   };
+
+  const handleStatusUpdate = async (trackingId, status) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:4000/order/${trackingId}`,
+        { status }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Generate random tracking ID
+  const generateTrackingId = () => {
+    const chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+    let result = "";
+    for (let i = 0; i < 6; i++) {
+      result += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return result;
+  };
+
+  // Set tracking ID on component mount
+  useEffect(() => {
+    setTrackingId(generateTrackingId());
+  }, []);
 
   return (
     <div className="bg-[#2976be] h-[80vh]">
@@ -65,57 +94,81 @@ const OrderForm = () => {
                 onChange={(event) => setAddress(event.target.value)}
               />
             </div>
-            <div className="mb-6">
+            <div className="mb-4">
               <label
                 className="block text-white font-bold mb-2"
                 htmlFor="message"
               >
-                Phone Number:
+                Message:
+              </label>
+              <textarea
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="message"
+                placeholder="Enter your message"
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+              ></textarea>
+            </div>
+            <div className="mb-4">
+              <label
+                className="block text-white font-bold mb-2"
+                htmlFor="contact"
+              >
+                Contact:
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="phone number"
+                id="contact"
                 type="text"
-                placeholder="Enter your Phone Number"
+                placeholder="Enter your contact"
                 value={contact}
                 onChange={(event) => setContact(event.target.value)}
               />
             </div>
-            <div className="mb-6">
+            <Link to="/orderstatus">
+              <button
+                type="submit"
+                className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+              >
+                Submit
+              </button>
+            </Link>
+          </form>
+        </div>
+        <div className="w-full md:w-1/2 px-4">
+          <div className="max-w-sm mx-auto py-8">
+            <h1 className="text-2xl font-bold text-white text-center py-6">
+              Track Your Order
+            </h1>
+            <div className="mb-4">
               <label
                 className="block text-white font-bold mb-2"
-                htmlFor="message"
+                htmlFor="trackingId"
               >
-                Your Order:
+                Enter your tracking ID:
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="message"
+                id="trackingId"
                 type="text"
-                placeholder="Enter your order"
-                value={message}
-                onChange={(event) => setMessage(event.target.value)}
+                placeholder="Enter your tracking ID"
+                value={trackingId}
+                onChange={(event) => setTrackingId(event.target.value)}
               />
             </div>
-            <div className="flex justify-center">
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="submit"
-              >
-                Submit Order
-              </button>
-            </div>
-            <p className="text-black text-xs mt-4 bg-gray-200 p-4">
-              No Response in 3mins? Call: 09112180828, 07039231439
-            </p>
-          </form>
-        </div>
-        <div className="w-full md:w-1/2 px-4 py-8">
-          <img
-            src="https://images.unsplash.com/photo-1525160354320-d8e92641c563?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8M2QlMjBsb2dpc3RpY3MlMjBtb3RvcmN5Y2xlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
-            alt="image description"
-            className="w-full h-[60vh] object-cover"
-          />
+            <button
+              onClick={() => handleStatusUpdate(trackingId, "shipped")}
+              className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+            >
+              Shipped
+            </button>
+            <button
+              onClick={() => handleStatusUpdate(trackingId, "delivered")}
+              className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow ml-4"
+            >
+              Delivered
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -10,6 +10,7 @@ import {
   bryank,
   Woobles2,
 } from "../assets/Sekani/index";
+import Yoka from "../assets/Sekani/Yoka.jpeg";
 import { Link } from "react-router-dom";
 import RainMorphism from "./RainMorphism";
 import SwiperCore, { Navigation, Pagination } from "swiper";
@@ -139,7 +140,7 @@ const Services = () => {
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                   Fugiat, labore.
                 </p>
-                <Link to="/eatery">
+                <Link to="/vr">
                   <button className=" w-[200px]  border-2 rounded-full hover:text-[#FB320D] hover:border-[#03032B] border-[#FB320D] font-medium  mx-auto px-4 py-2 mt-2">
                     View more
                   </button>
@@ -179,7 +180,27 @@ const Services = () => {
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                   Fugiat, labore.
                 </p>
-                <Link to="/eatery">
+                <Link to="/salon">
+                  <button className=" w-[200px]  border-2 rounded-full hover:text-[#FB320D] hover:border-[#03032B] border-[#FB320D] font-medium  mx-auto px-4 py-2 mt-2">
+                    View more
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300">
+              <img className="w-50 mx-auto  bg-white" src={Yoka} alt="/" />
+
+              <div className="text-center font-medium bg-[#add8e6] py-6 ">
+                <h1 className="font-bold text-[#FB320D] md:text-2xl sm:text-4xl text-2xl py-6">
+                  Yoka Logistics
+                </h1>
+                <p className="text-gray-400 font-normal text-sm text-center">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  Fugiat, labore.
+                </p>
+                <Link to="/yoka">
                   <button className=" w-[200px]  border-2 rounded-full hover:text-[#FB320D] hover:border-[#03032B] border-[#FB320D] font-medium  mx-auto px-4 py-2 mt-2">
                     View more
                   </button>
